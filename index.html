@@ -1,62 +1,283 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>SimonTechLab</title>
-  <link rel="stylesheet" href="styles.css"> 
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap" rel="stylesheet">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Simon Schoen</title>
+  <meta name="description" content="Calm, confident, exclusive fintech landing page for a prodigy entrepreneur offering bespoke trading automation and financial product engineering." />
 
+  <!-- Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap" rel="stylesheet">
+
+  <style>
+    /* ==========================================
+       DESIGN TOKENS (grayscale only for now)
+    =========================================== */
+    :root {
+      --bg: #000;          /* page background */
+      --fg: #fff;          /* primary text */
+      --muted: #cfcfcf;    /* subdued text */
+      --mid: #1b1b1b;      /* panels / windows */
+      --line: #2a2a2a;     /* separators */
+
+      --title-font: 'Montserrat', system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+      --text-font: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, sans-serif;
+
+      /* spacing scale */
+      --s-1: 4px;  --s-2: 8px;  --s-3: 12px;  --s-4: 16px;  --s-5: 24px;
+      --s-6: 32px; --s-7: 40px; --s-8: 56px;  --s-9: 72px;  --s-10: 96px;
+
+      /* (reserved) accent color — do not use yet */
+      --accent: #7aa2ff; /* hidden for later */
+    }
+
+    /* Base reset + defaults */
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--fg);
+      font-family: var(--text-font);
+      -webkit-font-smoothing: antialiased; text-rendering: optimizeLegibility;
+    }
+    img, video { max-width: 100%; display: block; }
+    a { color: inherit; text-decoration: none; }
+    .container { width: min(1200px, 92%); margin-inline: auto; }
+
+    /* Type */
+    .eyebrow { letter-spacing: .12em; text-transform: uppercase; color: var(--muted); font-size: .78rem; }
+    h1, h2, h3 { font-family: var(--title-font); font-weight: 700; margin: 0 0 var(--s-4); }
+    h1 { font-size: clamp(2rem, 4.5vw, 3.5rem); line-height: 1.05; }
+    h2 { font-size: clamp(1.5rem, 3.5vw, 2.25rem); line-height: 1.1; }
+    h3 { font-size: clamp(1.1rem, 2.8vw, 1.4rem); letter-spacing: .02em; }
+    p { color: #e6e6e6; margin: 0 0 var(--s-4); line-height: 1.6; }
+    .muted { color: var(--muted); }
+
+    /* Common UI */
+    .window { background: var(--mid); border: 1px solid var(--line); border-radius: 16px; }
+    .divider { height: 1px; background: var(--line); margin: var(--s-7) 0; }
+    .btn { display: inline-flex; align-items: center; gap: 10px; padding: 12px 18px; border-radius: 999px; border: 1px solid var(--line); background: #0a0a0a; color: var(--fg); font-weight: 600; }
+    .btn:hover { background: #111; }
+
+    header.site {
+      position: sticky; top: 0; z-index: 10;
+      backdrop-filter: blur(6px);
+      background: color-mix(in srgb, #000 80%, transparent);
+      border-bottom: 1px solid var(--line);
+    }
+    .nav { display: flex; align-items: center; justify-content: space-between; height: 64px; }
+    .nav a { color: var(--muted); font-weight: 600; }
+    .nav a:hover { color: var(--fg); }
+    .nav .brand { color: var(--fg); font-family: var(--title-font); letter-spacing: .04em; }
+
+    .hero { padding: var(--s-9) 0 var(--s-8); }
+    .hero .lede { font-size: clamp(1rem, 2.2vw, 1.25rem); color: var(--muted); }
+    .hero .cta { margin-top: var(--s-5); display: flex; gap: 12px; flex-wrap: wrap; }
+
+    .grid { display: grid; gap: var(--s-5); }
+
+    .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: var(--s-5); }
+    .stat { text-align: center; padding: var(--s-6); border-radius: 12px; background: #0d0d0d; border: 1px solid var(--line); }
+    .stat .num { font-family: var(--title-font); font-size: clamp(1.6rem, 4vw, 2.4rem); }
+    .stat .label { color: var(--muted); font-size: .9rem; }
+
+    .list { display: grid; gap: var(--s-4); }
+    .list li { display: grid; grid-template-columns: 18px 1fr; gap: 10px; align-items: start; color: #eaeaea; }
+    .dot { width: 10px; height: 10px; border-radius: 50%; background: #a3a3a3; margin-top: 7px; }
+
+    form.contact { display: grid; gap: var(--s-4); }
+    input, textarea { width: 100%; padding: 12px 14px; border-radius: 12px; background: #0b0b0b; border: 1px solid var(--line); color: var(--fg); font: inherit; }
+    label { font-size: .9rem; color: var(--muted); }
+    .note { font-size: .85rem; color: var(--muted); }
+
+    footer { color: var(--muted); padding: var(--s-7) 0 var(--s-9); }
+
+    /* ==========================================
+       RESPONSIVE POLICY
+       PHONE styles: strictly < 600px
+    =========================================== */
+    @media (max-width: 599px) {
+      .nav .links { display: none; }
+      .hero .grid { grid-template-columns: 1fr; }
+      .stats { grid-template-columns: 1fr 1fr; }
+    }
+
+    /* ==========================================
+       ≥ 600px (tablet / desktop)
+    =========================================== */
+    @media (min-width: 600px) {
+      .nav .links { display: flex; gap: 20px; }
+      .hero .grid { grid-template-columns: 1.2fr .8fr; align-items: end; }
+      .two { grid-template-columns: 1fr 1fr; }
+      .stats { grid-template-columns: repeat(3, 1fr); }
+    }
+    .about {
+  align-items: center;
+}
+
+.avatar {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid var(--stroke);
+}
+
+
+/* Header row: photo + About/Simon */
+.about-header {
+  display: flex;
+  align-items: center;
+  justify-content: center;    /* centers the whole header block in the left column */
+  gap: 20px;
+  margin-bottom: 18px;
+}
+
+.about-header .avatar {
+  width: 140px;               /* larger portrait */
+  height: 140px;
+  object-fit: cover;
+  border-radius: 50%;
+}
+
+.about-name .kicker {
+  font-size: 0.9rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  opacity: 0.7;
+}
+
+.about-name .title {
+  font-size: 2.2rem;
+  margin-top: 4px;
+}
+
+/* Center subtitles and text */
+.subtle-title {
+  font-size: 1.25rem;
+  font-weight: 600;
+  margin: 28px 0 12px;
+  text-align: center;
+}
+
+.about-left p,
+.about-right p {
+  font-size: 1.1rem;
+  line-height: 1.7;
+  margin-bottom: 20px;
+  max-width: 60ch;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+/* Intro spacing */
+.about-intro {
+  font-size: 1.15rem;
+  line-height: 1.6;
+  margin-bottom: 24px;
+}
+.about .about-split {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr; /* left slightly smaller */
+  gap: 48px; /* generous breathing space between columns */
+  align-items: start;
+}
+
+/* Two-column layout */
+.about .about-split {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr; /* left a bit narrower */
+  gap: 48px;
+  align-items: start;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 20px;
+  font-size: 14px;
+  padding: 6px 10px;
+  border-radius: 999px;
+  border: 1px solid var(--stroke);
+  background: rgba(255,255,255,0.04);
+}
+
+.pulse {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: var(--accent);
+  box-shadow: 0 0 0 0 var(--accent);
+  animation: pulse 1.6s infinite;
+}
+
+@keyframes pulse {
+  to {
+    box-shadow: 0 0 0 18px var(--accent-glow);
+  }
+}
+:root {
+  --header-h: 64px;
+  --accent: #f1f1f1f6;
+  --accent-glow: rgba(110, 231, 255, 0);
+}
+  </style>
 </head>
 <body>
-    <div class="header-parent">
-
-        <header>
-            <div class="nav">
-                <div class="brand"><span class="dot"></span> SimonTechLab</div>
- 
-                <nav class="links">
-                    <a href="#" data-scroll="#quant">Quant</a>
-                    <a href="#" data-scroll="#services">Services</a>
-                    <a href="#" data-scroll="#about">About</a>
-                </nav>
-                <button id="themeToggle" aria-label="Toggle dark/light mode" class="theme-toggle"> 🌓   </button>           
-            </div>
-        </header>
+  <!-- ================= HEADER ================= -->
+  <header class="site">
+    <div class="container nav">
+      <div class="brand">SIMON</div>
+      <nav class="links" aria-label="Primary">
+        <a href="#about">Meet Simon</a>
+        <a href="#stats">Numbers</a>
+        <a href="#capabilities">What I Do</a>
+        <a href="#value">Why Me</a>
+        <a href="#contact">Contact</a>
+      </nav>
     </div>
-    <div class="parallax-wrapper">
+  </header>
+
+  <!-- ================= HERO & QUANT ================= -->
+  <section class="hero">
+    <div class="container grid hero grid">
+      <div>
+        <span class="eyebrow">Fintech Engineer · 25</span>
+        <h1>Trading automation & financial products — built with latest technology.</h1>
+        <p class="lede"></p>
+        <div class="cta">
+          <a class="btn" href="#contact">Get in touch</a>
+          <a class="btn" href="#capabilities" aria-label="Jump to capabilities">See capabilities</a>
+        </div>
         
-        <div class="parallax-bg" id="parallax-bg"> </div>
-        <div class="overlay" aria-hidden="true"></div>
+      </div>
+      <div>
+        <div class="window" style="padding: var(--s-6);">
+          <p class="muted">Behind the curtain:</p>
+          <ul class="list" style="margin-top: var(--s-3);">
+            <li><span class="dot"></span><span>Low-latency execution scaffolds</span></li>
+            <li><span class="dot"></span><span>Risk surfaces & circuit-breakers</span></li>
+            <li><span class="dot"></span><span>Strategy research pipelines</span></li>
+          </ul>
+        </div>
+      </div>
 
-        <!-- HERO -->
-        <section class="hero section" id="home">
-            <div class="wrap">
-                <div class="card">
-                    <h1>SimonTechLab — Focused Digital Tools, Built with Precision</h1>
-                    <p>
-                        From lean websites to applied AI and quant systems — I design and build clean, performant solutions with purpose.
-                    </p>
-                    <div class="row">
-                        <a class="btn btn-accent" data-scroll="#services">Work with me</a>
-                        <a class="btn btn-ghost" data-scroll="#quant">Quant research</a>
-                    </div>
-                </div>
-            </div>
-        </section>
+    <div class="divider container"></div>
 
-        <!-- QUANT TRADING -->
-        <section class="section" id="quant">
-            <div class="wrap grid grid-2">
-                
-                <!-- Left card -->
-                <div class="card">
-                    <div class="badge">
-                        <span class="pulse"></span> Coming soon · Opening to external capital
-                    </div>
-                    <h2 class="title">Quant Trading</h2>
-                    <p class="muted", style="text-align: center;">
-                        Low risk, high returns. Never holding longer than necessary.
+    </div>
+
+  </section>
+
+  <!-- ============== QUANT ================= -->
+  <section id="about" class="container" style="padding: var(--s-8) 0;">
+    <div class="grid two">
+      <div class="window" style="padding: var(--s-6);">
+        <h2>Quant Trading</h2>
+        <p>Low risk, high returns. Never holding longer than necessary.
                         Carefully timed entries, repeated consistently around the clock. The <strong>Schoen Type 1</strong> continuously
                         analyzes an unbounded number of markets.
                         Entirely born from my own inspiration and original thinking, this 
@@ -65,165 +286,100 @@
                         by institutions or found in existing literature.
                         Minimalism and modularity are key to the <strong>Schoen Type 1</strong>'s design — it’s built to evolve.
                         A beta version is currently being tested in live markets.
-                    </p>
-                </div>
-                
-                <!-- Right card -->
-                <div class="card">
-                    <h3 style="margin-top:0; font-size: 22px;">Latest Focus Areas</h3>
-                    <ul class="muted" style="margin:8px 0 0 18px; font-size: 18px;">
-                        <li>CNNs &amp; Reinforcement Learning</li>
-                        <li>Implementing Realistic Mathematical Simulation of Order Execution Probability</li>
-                        <li>Testing the Beta version of the Schoen Type 1 for Robustness</li>
-                    </ul>
-                    <div class="row" style="margin-top:40px">
-                        <a class="btn btn-accent" data-scroll="#contact">Request early access</a>
-                        <a class="btn btn-ghost" data-scroll="#services">See current services</a>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
-
-        <!-- SERVICES + CONTACT FORM -->
-        <section class="section" id="services">
-            <div class="wrap grid grid-2">
-                <div class="card">
-                    <h2 class="title">Web &amp; AI Services</h2>
-                    <p class="muted">
-                    Small business sites, landing pages, and lightweight AI automations. 
-                    Clean, reliable, and fast. Built with an eye for detail and maintainability.
-                    </p>
-                    <ul class="muted" style="margin:12px 0 0 18px">
-                    <li>Modern, responsive websites</li>
-                    <li>Contact forms, calendars, basic e-commerce</li>
-                    <li>Chatbot integrations &amp; simple data tools</li>
-                    </ul>
-                </div>
-
-                <div class="card" id="contact">
-                    <h3 style="margin-top:0">Start a conversation</h3>
-                    <form id="inquiryForm">
-                    <input type="text" name="name" placeholder="Your name" required>
-                    <input type="email" name="email" placeholder="Your email" required>
-                    <textarea name="message" placeholder="Tell me briefly what you need" required></textarea>
-                    <button class="btn btn-accent" type="submit">Send inquiry</button>
-                    <p class="muted" id="formHint" style="margin:6px 0 0; font-size:13px">
-                    </p>
-                    </form>
-                </div>
-            </div>
-        </section>
-            
-        <!-- ABOUT -->
-        <section class="section" id="about">
-            <div class="wrap card about">
-                <div class="about-split">
-                    <!-- LEFT: header (photo + name), then intro, then section 1 -->
-                    <div class="about-left">
-                        <!-- Header row: photo left, About/Simon right -->
-                        <div class="about-header">
-                            <img class="avatar" src="assets/img/Portrait.webp" alt="Portrait of Simon" />
-                            <div class="about-name">
-                                <div class="kicker">About</div>
-                                <h2 class="title">Simon</h2>
-                            </div>
-                        </div>
-                        <!-- Intro below header -->
-                        <p class="muted about-intro">
-                            Swiss engineer with a focus on automation, optimization, and smart design.  
-                            I create focused digital tools — from streamlined websites to applied AI and quantitative systems.  
-                            Effective by design.
-                        </p>
-
-                        <h3 class="subtle-title">How It Started</h3>
-                        <p class="muted">
-                        I have always been drawn to optimization and automation — the art of making things work better, smarter, and with less friction. That interest led me to pursue a Bachelor's degree in Computer Science at ETH Zurich, where I built a strong foundation in structured thinking, problem-solving, and systems design.
-                        </p>
-                    </div>
-                    <!-- RIGHT: personality & philosophy -->
-                    <div class="about-right">
-                        <h3 class="subtle-title">From Code to Markets</h3>
-                        <p class="muted">
-                            In my final semesters, I began applying what I’d learned to a new question: how could these skills be used to approach the financial markets in an original, automated, and intelligent way? This marked the beginning of my deep focus on quantitative research and trading system design.
-                        </p>
-
-                        <h3 class="subtle-title">Balancing Logic and Creativity</h3>
-                        <p class="muted" style="margin-bottom:0;">
-                            My work is driven by two core forces: a respect for rigorous, conventional learning — the kind found in universities, books, and proven methods — and a belief in bold, independent innovation. I see lasting progress as a balance between the two: grounded thinking and fearless creativity.
-                        </p>
-                    </div>
-
-                </div>
-            </div>
-        </section>
+          </p>
+      </div>
+      <div class="window" style="padding: var(--s-6);">
+        <h3>Latest Focus Areas</h3>
+        <ul class="list">
+          <li><span class="dot"></span><span>CNNs & Reinforcement Learning</span></li>
+          <li><span class="dot"></span><span>Realistic Mathematical Simulation of Order Execution Probability</span></li>
+          <li><span class="dot"></span><span>Testing the Beta version of the Schoen Type 1 for Robustness</span></li>
+        </ul>
+        <div class="badge">
+            <span class="pulse"></span> Coming soon · Opening to external capital
+         </div>
+      </div>
     </div>
+    <div class="divider container"></div>
+  </section>
 
-    <footer>
-        <div class="foot">© <span id="y"></span> SimonTechLab • Zurich</div>
-    </footer>
+  <!-- ============== ABOUT ================= -->
+ <section id="about" class="container" style="padding: var(--s-8) 0;"">
 
-    <script>
-        const bg = document.getElementById('parallax-bg');
+      <div class="wrap card about">
+          <div class="about-split">
+              <!-- LEFT: header (photo + name), then intro, then section 1 -->
+              <div class="about-left">
+                  <!-- Header row: photo left, About/Simon right -->
+                  <div class="about-header">
+                      <img class="avatar" src="assets/img/Portrait.webp" alt="Portrait of Simon" />
+                      <div class="about-name">
+                          <div class="kicker">About</div>
+                          <h2 class="title">Simon</h2>
+                      </div>
+                  </div>
+                  <!-- Intro below header -->
+                  <p class="muted about-intro">
+                      Swiss engineer with a focus on automation, optimization, and smart design.  
+                      I create focused digital tools — from streamlined websites to applied AI and quantitative systems.  
+                      Effective by design.
+                  </p>
 
-        // pick a gentler factor on mobile
-        const mq = window.matchMedia('(max-width: 768px)');
-        let factor = mq.matches ? -0.05 : 0.7;   // tune 0.15–0.22 if needed
-        mq.addEventListener?.('change', () => {
-            factor = mq.matches ? -0.05 : 0.7;
-        });
+                  <h3 class="subtle-title">How It Started</h3>
+                  <p class="muted">
+                  I have always been drawn to optimization and automation — the art of making things work better, smarter, and with less friction. That interest led me to pursue a Bachelor's degree in Computer Science at ETH Zurich, where I built a strong foundation in structured thinking, problem-solving, and systems design.
+                  </p>
+              </div>
+              <!-- RIGHT: personality & philosophy -->
+              <div class="about-right">
+                  <h3 class="subtle-title">From Code to Markets</h3>
+                  <p class="muted">
+                      In my final semesters, I began applying what I’d learned to a new question: how could these skills be used to approach the financial markets in an original, automated, and intelligent way? This marked the beginning of my deep focus on quantitative research and trading system design.
+                  </p>
 
-        // optional: respect reduced motion
-        const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                  <h3 class="subtle-title">Balancing Logic and Creativity</h3>
+                  <p class="muted" style="margin-bottom:0;">
+                      My work is driven by two core forces: a respect for rigorous, conventional learning — the kind found in universities, books, and proven methods — and a belief in bold, independent innovation. I see lasting progress as a balance between the two: grounded thinking and fearless creativity.
+                  </p>
+              </div>
 
-        function onScroll(){
-            if (reduce) return;
-            const maxShift = Math.max(0, bg.offsetHeight - window.innerHeight);
-            const y = Math.min(window.scrollY * factor, maxShift);
-            bg.style.transform = `translateY(${y}px)`;
-        }
+          </div>
+      </div>
+        <div class="divider container"></div>
+  </section>
 
-        window.addEventListener('scroll', onScroll, { passive: true });
-        onScroll(); // initial position
+  <!-- ============== CONTACT ================= -->
+  <section id="contact" class="container" style="padding: var(--s-8) 0;">
+    <span class="eyebrow">CONTACT</span>
+    <h2> Start a conversation</h2>
+    <p class="muted">Short and direct.</p>
 
-        const toggle = document.getElementById('themeToggle');
-            toggle.addEventListener('click', () => {
-            document.documentElement.classList.toggle('light');
-        });
+    <form class="contact" onsubmit="event.preventDefault(); document.getElementById('thanks').hidden=false; this.reset();">
+      <div>
+        <label for="name">Name</label>
+        <input id="name" name="name" required minlength="2" placeholder="Your name" />
+      </div>
+      <div>
+        <label for="email">Email</label>
+        <input id="email" name="email" type="email" required placeholder="you@firm.com" />
+      </div>
+      <div>
+        <label for="msg">Message</label>
+        <textarea id="msg" name="msg" rows="5" required minlength="12" placeholder="The idea, constraints, timeline."></textarea>
+      </div>
+      <button class="btn" type="submit">Request a private call</button>
+      <p id="thanks" class="note" hidden>Received. If it’s a fit, you’ll hear from me.</p>
+    </form>
+  </section>
 
-        function headerH(){ return document.querySelector('header')?.offsetHeight || 64; }
+  <footer class="container">
+    <div class="divider"></div>
+    <p>© <span id="y"></span> Simon</p>
+  </footer>
 
-        // scroll-jumping
-        function headerH(){ 
-            return document.querySelector('header')?.offsetHeight || 64; 
-        }
-
-        function setupSmoothScroll(){
-            document.querySelectorAll('[data-scroll]').forEach(el=>{
-            el.addEventListener('click', e=>{
-                // allow normal new-tab behavior if user forces it
-                if (e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
-                e.preventDefault();
-
-                const targetSel = el.getAttribute('data-scroll');
-                const target = document.querySelector(targetSel);
-                if(!target) return;
-
-                const y = target.getBoundingClientRect().top + window.pageYOffset - headerH();
-                window.scrollTo({ top: y, behavior: 'smooth' });
-            });
-            });
-        }
-
-        window.addEventListener('load', setupSmoothScroll);
-
-
-    </script>
-
+  <script>
+    // minimal JS: dynamic year only
+    document.getElementById('y').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>
-
-
-
-
