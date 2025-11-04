@@ -349,20 +349,20 @@ document.getElementById('y').textContent = new Date().getFullYear();
 
     form.addEventListener("submit", function(e) {
       e.preventDefault();
-
+      
       const data = {
-        workPreference: form[0].value,
-        interest: form[1].value,
-        objectives: form[2].value,
-        skills: form[3].value,
-        extraSkills: form[4].value,
-        linkedin: form[5].value,
-        name: form[6].value,
-        university: form[7].value,
-        program: form[8].value,
-        semester: form[9].value,
-        email: form[10].value,
-        phone: form[11].value
+        workPreference: form.workPreference.value,   // ✅ {{workPreference}}
+        interest: form.interest.value,               // ✅ {{interest}}
+        objectives: form.objectives.value,           // ✅ {{objectives}}
+        skills: form.skills.value,                   // ✅ {{skills}}
+        extraSkills: form.extraSkills.value,         // ✅ {{extraSkills}}
+        linkedin: form.linkedin.value,               // ✅ {{linkedin}}
+        name: form.name.value,                       // ✅ {{name}}
+        university: form.university.value,           // ✅ {{university}}
+        program: form.program.value,                 // ✅ {{program}}
+        semester: form.semester.value,               // ✅ {{semester}}
+        email: form.email.value,                     // ✅ {{email}}
+        phone: form.phone.value                      // ✅ {{phone}}
       };
 
       emailjs.send("service_c3q0dqg", "template_dhefx17", data)
