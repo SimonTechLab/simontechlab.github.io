@@ -263,71 +263,71 @@ footer { color: var(--muted); padding: var(--s-7) 0 var(--s-9); }
   <span class="eyebrow">APPLICATION</span>
   <h2>Join the Quant Team</h2>
   <p class="muted">If you’re driven, analytical, and ambitious — apply.</p>
+<form class="contact">
+  <div>
+    <label>What would you most like to work on?</label>
+    <input name="workPreference" required placeholder="Trading · Machine Learning · Research · Software Engineering" />
+  </div>
 
-  <form class="contact" onsubmit="event.preventDefault(); document.getElementById('thanks').hidden=false; this.reset();">
-    <div>
-      <label>What would you most like to work on?</label>
-      <input required placeholder="Trading · Machine Learning · Research · Software Engineering" />
-    </div>
+  <div>
+    <label>What drives your interest in our fund team as an Analyst?</label>
+    <textarea name="interest" rows="4" required placeholder="Tell us what motivates you"></textarea>
+  </div>
 
-    <div>
-      <label>What drives your interest in our fund team as an Analyst?</label>
-      <textarea rows="4" required placeholder="Tell us what motivates you"></textarea>
-    </div>
+  <div>
+    <label>What objectives do you hope to achieve as an Analyst?</label>
+    <textarea name="objectives" rows="4" required></textarea>
+  </div>
 
-    <div>
-      <label>What objectives do you hope to achieve as an Analyst?</label>
-      <textarea rows="4" required></textarea>
-    </div>
+  <div>
+    <label>What unique skills or experiences do you bring?</label>
+    <textarea name="skills" rows="4" required></textarea>
+  </div>
 
-    <div>
-      <label>What unique skills or experiences do you bring?</label>
-      <textarea rows="4" required></textarea>
-    </div>
+  <div>
+    <label>What additional skills or experiences do you have (not directly related)?</label>
+    <textarea name="extraSkills" rows="3"></textarea>
+  </div>
 
-    <div>
-      <label>What additional skills or experiences do you have (not directly related)?</label>
-      <textarea rows="3"></textarea>
-    </div>
+  <div>
+    <label>Your LinkedIn Profile</label>
+    <input name="linkedin" type="url" placeholder="https://linkedin.com/in/you" />
+  </div>
 
-    <div>
-      <label>Your LinkedIn Profile</label>
-      <input type="url" placeholder="https://linkedin.com/in/you" />
-    </div>
+  <div>
+    <label>Name</label>
+    <input name="name" required placeholder="Full name" />
+  </div>
 
-    <div>
-      <label>Name</label>
-      <input required placeholder="Full name" />
-    </div>
+  <div>
+    <label>University</label>
+    <input name="university" required placeholder="ETH · UZH · HSG · other" />
+  </div>
 
-    <div>
-      <label>University</label>
-      <input required placeholder="ETH · UZH · HSG · other" />
-    </div>
+  <div>
+    <label>Degree Program</label>
+    <input name="program" required placeholder="BSc · MSc · PhD" />
+  </div>
 
-    <div>
-      <label>Degree Program</label>
-      <input required placeholder="BSc · MSc · PhD" />
-    </div>
+  <div>
+    <label>Current Semester</label>
+    <input name="semester" required placeholder="e.g., 3rd semester" />
+  </div>
 
-    <div>
-      <label>Current Semester</label>
-      <input required placeholder="e.g., 3rd semester" />
-    </div>
+  <div>
+    <label>Email</label>
+    <input name="email" type="email" required placeholder="you@uni.ch" />
+  </div>
 
-    <div>
-      <label>Email</label>
-      <input type="email" required placeholder="you@uni.ch" />
-    </div>
+  <div>
+    <label>Phone</label>
+    <input name="phone" required placeholder="+41 ..." />
+  </div>
 
-    <div>
-      <label>Phone</label>
-      <input required placeholder="+41 ..." />
-    </div>
+  <button class="btn" type="submit">Submit Application</button>
+  <p id="thanks" class="note" hidden>Application received. We will reach out if selected.</p>
+</form>
 
-    <button class="btn" type="submit">Submit Application</button>
-    <p id="thanks" class="note" hidden>Application received. We will reach out if selected.</p>
-  </form>
 </section>
 
 
@@ -342,40 +342,38 @@ document.getElementById('y').textContent = new Date().getFullYear();
 <script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
 <script>
-  (function() {
-    emailjs.init("XJhc1Cy7_aCOnt45f"); // ✅ your public key
+(function() {
+  emailjs.init("XJhc1Cy7_aCOnt45f");
 
-    const form = document.querySelector("form.contact");
+  const form = document.querySelector("form.contact");
 
-    form.addEventListener("submit", function(e) {
-      e.preventDefault();
-      
-      const data = {
-        workPreference: form.workPreference.value,   // ✅ {{workPreference}}
-        interest: form.interest.value,               // ✅ {{interest}}
-        objectives: form.objectives.value,           // ✅ {{objectives}}
-        skills: form.skills.value,                   // ✅ {{skills}}
-        extraSkills: form.extraSkills.value,         // ✅ {{extraSkills}}
-        linkedin: form.linkedin.value,               // ✅ {{linkedin}}
-        name: form.name.value,                       // ✅ {{name}}
-        university: form.university.value,           // ✅ {{university}}
-        program: form.program.value,                 // ✅ {{program}}
-        semester: form.semester.value,               // ✅ {{semester}}
-        email: form.email.value,                     // ✅ {{email}}
-        phone: form.phone.value                      // ✅ {{phone}}
-      };
+  form.addEventListener("submit", function(e) {
+    e.preventDefault();
 
-      emailjs.send("service_c3q0dqg", "template_dhefx17", data)
-        .then(() => {
-          document.getElementById("thanks").hidden = false;
-          form.reset();
-        })
-        .catch((err) => console.error("❌ Email failed:", err));
-    });
-  })();
+    const data = {
+      workPreference: form.workPreference.value,
+      interest: form.interest.value,
+      objectives: form.objectives.value,
+      skills: form.skills.value,
+      extraSkills: form.extraSkills.value,
+      linkedin: form.linkedin.value,
+      name: form.name.value,
+      university: form.university.value,
+      program: form.program.value,
+      semester: form.semester.value,
+      email: form.email.value,
+      phone: form.phone.value
+    };
+
+    emailjs.send("service_c3q0dqg", "template_dhefx17", data)
+      .then(() => {
+        document.getElementById("thanks").hidden = false;
+        form.reset();
+      })
+      .catch((err) => console.error("❌ Email failed:", err));
+  });
+})();
 </script>
-
-
 
 </body>
 </html>
