@@ -372,7 +372,7 @@ document.getElementById('y').textContent = new Date().getFullYear();
     await fetch(scriptURL, {
       method: "POST",
       body: JSON.stringify(data),
-      headers: { "Content-Type": "application/json" }
+      headers: { "Content-Type": "applications/json" }
     });
 
     document.getElementById("thanks").hidden = false;
