@@ -347,11 +347,13 @@ document.getElementById('y').textContent = new Date().getFullYear();
 
 <script>
   const scriptURL = "https://script.google.com/macros/s/AKfycbymjRlsYnYyPw1S-wjp_ryMYCbVhDDOmHHamOyLNyR5rfy71e1w7WiivF0FjF1dfFZnLg/exec";
+
   document.querySelector("form.contact").addEventListener("submit", async (e) => {
     e.preventDefault();
 
-    const form = e.target;
+    console.log("✅ FORM SUBMITTED — building data");
 
+    const form = e.target;
     const data = {
       workPreference: form[0].value,
       interest: form[1].value,
@@ -365,14 +367,18 @@ document.getElementById('y').textContent = new Date().getFullYear();
       semester: form[9].value,
       email: form[10].value,
       phone: form[11].value,
-      cvLink: form[12].value // temporary, until we add real upload
+      cvLink: form[12].value
     };
 
-    await fetch(scriptURL, {
+    console.log("📦 DATA SENT TO GOOGLE:", data);
+
+    const response = await fetch(scriptURL, {
       method: "POST",
       body: JSON.stringify(data),
       headers: { "Content-Type": "application/json" }
     });
+
+    console.log("📨 GOOGLE RESPONSE:", response);
 
     document.getElementById("thanks").hidden = false;
     form.reset();
