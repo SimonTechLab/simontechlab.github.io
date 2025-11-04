@@ -356,18 +356,18 @@ document.getElementById('y').textContent = new Date().getFullYear();
       e.preventDefault();
 
       const data = {
-        workPreference: form.workPreference.value,
-        interest: form.interest.value,
-        objectives: form.objectives.value,
-        skills: form.skills.value,
-        extraSkills: form.extraSkills.value,
-        linkedin: form.linkedin.value,
-        name: form.name.value,
-        university: form.university.value,
-        program: form.program.value,
-        semester: form.semester.value,
-        email: form.email.value,
-        phone: form.phone.value
+        workPreference: form[0].value,
+        interest: form[1].value,
+        objectives: form[2].value,
+        skills: form[3].value,
+        extraSkills: form[4].value,
+        linkedin: form[5].value,
+        name: form[6].value,
+        university: form[7].value,
+        program: form[8].value,
+        semester: form[9].value,
+        email: form[10].value,
+        phone: form[11].value
       };
 
       emailjs.send("service_c3q0dqg", "template_dhefx17", data)
@@ -379,8 +379,6 @@ document.getElementById('y').textContent = new Date().getFullYear();
     });
   })();
 </script>
-
-
 
 
 
