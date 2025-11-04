@@ -344,46 +344,43 @@ footer { color: var(--muted); padding: var(--s-7) 0 var(--s-9); }
 <script>
 document.getElementById('y').textContent = new Date().getFullYear();
 </script>
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
 
 <script>
-  const scriptURL = "https://script.google.com/macros/s/AKfycbw07zdjum8a0Xsp96Wm-RzxVeW8cOGr8kkcrCztcmuuDfiOVVxdWtA8btLZEG7qAR8CXw/exec";
+  (function() {
+    emailjs.init("XJhc1Cy7_aCOnt45f"); // ✅ your public key
 
-  document.querySelector("form.contact").addEventListener("submit", async (e) => {
-    e.preventDefault();
+    const form = document.querySelector("form.contact");
 
-    console.log("✅ FORM SUBMITTED — building data");
+    form.addEventListener("submit", function(e) {
+      e.preventDefault();
 
-    const form = e.target;
-    const data = {
-      workPreference: form[0].value,
-      interest: form[1].value,
-      objectives: form[2].value,
-      skills: form[3].value,
-      extraSkills: form[4].value,
-      linkedin: form[5].value,
-      name: form[6].value,
-      university: form[7].value,
-      program: form[8].value,
-      semester: form[9].value,
-      email: form[10].value,
-      phone: form[11].value,
-      cvLink: form[12].value
-    };
+      const data = {
+        workPreference: form[0].value,
+        interest: form[1].value,
+        objectives: form[2].value,
+        skills: form[3].value,
+        extraSkills: form[4].value,
+        linkedin: form[5].value,
+        name: form[6].value,
+        university: form[7].value,
+        program: form[8].value,
+        semester: form[9].value,
+        email: form[10].value,
+        phone: form[11].value
+      };
 
-    console.log("📦 DATA SENT TO GOOGLE:", data);
-
-    const response = await fetch(scriptURL, {
-      method: "POST",
-      body: JSON.stringify(data),
-      headers: { "Content-Type": "application/json" }
+      emailjs.send("service_c3q0dqg", "template_dhefx17", data)
+        .then(() => {
+          document.getElementById("thanks").hidden = false;
+          form.reset();
+        })
+        .catch((err) => console.error("❌ Email failed:", err));
     });
-
-    console.log("📨 GOOGLE RESPONSE:", await response.text());
-
-    document.getElementById("thanks").hidden = false;
-    form.reset();
-  });
+  })();
 </script>
+
+
 
 
 
